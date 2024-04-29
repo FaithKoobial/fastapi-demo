@@ -3,3 +3,6 @@ RUN apk add musl-dev mariadb-connector-c-dev gcc
 COPY ./app /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+
+FROM phpmyadmin/phpmyadmin:latest
+

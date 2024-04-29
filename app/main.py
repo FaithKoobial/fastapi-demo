@@ -8,6 +8,10 @@ import os
 import MySQLdb
 from fastapi.staticfiles import StaticFiles
 
+import os
+import MySQLdb
+from fastapi.staticfiles import StaticFiles
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static", html = True), name="static")
 
@@ -15,11 +19,12 @@ app.mount("/static", StaticFiles(directory="static", html = True), name="static"
 DBHOST = os.environ.get('DBHOST')
 DBUSER = os.environ.get('DBUSER')
 DBPASS = os.environ.get('DBPASS')
-DB = "nem2p"
+DB = "rpy2ja"
 
 @app.get("/")  # zone apex
 def zone_apex():
    return {"Hello": "Hello API", "album_endpoint":"/albums","static_endpoint":"/static"}
+
 
 @app.get("/tester")
 def tester():
