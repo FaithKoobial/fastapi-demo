@@ -8,10 +8,6 @@ import os
 import MySQLdb
 from fastapi.staticfiles import StaticFiles
 
-import os
-import MySQLdb
-from fastapi.staticfiles import StaticFiles
-
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static", html = True), name="static")
 
@@ -25,8 +21,27 @@ DB = "rpy2ja"
 def zone_apex():
    return {"Hello": "Hello API", "album_endpoint":"/albums","static_endpoint":"/static"}
 
-
 @app.get("/tester")
 def tester():
     text = "Hello, testing if this works"
-    return{"Hello":text} 
+    return{"Hello"} 
+
+@app.get("/albums")
+def get_all_albums():
+    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c.execute("SELECT * FROM albums ORDER BY name")
+    results = c.fetchall()
+    db.close()
+    return results
+
+@app.get("/albums/{id}")
+def get_one_album(id):
+    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c.execute("SELECT * FROM albums WHERE id=" + id)
+    results = c.fetchall()
+    db.close()
+    return results
+
+
